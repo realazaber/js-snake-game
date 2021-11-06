@@ -1,4 +1,5 @@
 import * as Player from "./player.js";
+import * as Food from "./food.js";
 
 
 //Get the game canvas.
@@ -11,20 +12,28 @@ const gridSize = 15;
 //Size of each grid block.
 const gridBlockSize = canvas.scrollWidth / gridSize;
 
-const startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 1);
-const startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 1);;
+let startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 1);
+let startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 1);
 const tailLength = 3;
 
 const player = new Player.createPlayer(startX, startY, tailLength);
 
+startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 1);
+startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 1);
+const food = new Food.createFood(startX, startY);
+
+
 //Draw grid.
 function drawGame () {
     
+    //Spawn player.
     gameCanvas.fillStyle = "red";
-    console.log(canvas.scrollHeight);
-    console.log(gridBlockSize);
     gameCanvas.fillRect(player.posX, player.posY, gridBlockSize, gridBlockSize);
     
+
+    //Spawn food.
+    gameCanvas.fillStyle = "yellow";
+    gameCanvas.fillRect(food.posX, food.posY, gridBlockSize, gridBlockSize);
 }
 
 //Detect if player is out of bounds.
