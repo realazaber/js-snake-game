@@ -5,9 +5,12 @@ export function createPlayer(posX, posY, tailLength) {
 
     this.velocityX = 0;
     this.velocityY = 0;
-    this.isAlive = true;
+    this.isAlive = true;   
+}
 
-    
+export function savePlayerPosition(posX, posY) {
+    this.posX = posX;
+    this.posY = posY;
 }
 
 //Check for collision with food.
