@@ -1,0 +1,78 @@
+body {
+    background-color: #181818;
+    color: #149414;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0.5em;
+}
+
+#gameView {
+    margin: auto;
+    border: 2px solid #149414; 
+    border-radius: 20px;
+}
+
+
+
+footer {
+    margin-top: auto;
+    position: relative;    
+    background-color: #0F0F0F;
+    padding: 1em;
+    
+}
+
+
+/* Desktops and laptops */
+@media only screen and (min-width: 1000px) {
+    #mobileButtons {
+        display: inline;
+        visibility: hidden;
+    }
+
+    footer {
+        padding: 30px;
+        font-size: 1.5em;    
+    }
+}
+
+/* Tablets and phones */
+@media only screen and (max-width: 999px) {
+
+    #mobileButtons {
+        margin-top: 1.5em;
+        
+    }
+    
+    .mobileButton {
+        border: 2px solid #149414;
+        padding: 2em;
+        color: #149414;
+        background-color: #181818;
+        margin: 0.1em;
+        border-radius: 10px;
+        transition-duration: 100ms;
+    }
+
+    .mobileButton:active {
+        border: 2px solid #181818;
+        color: #181818;
+        background-color: #149414;
+        
+        transition-duration: 100ms;
+    }
+
+    footer {        
+        padding: 15px;
+        font-size: 1.5em;    
+        height: 20px;
+    }
+}
