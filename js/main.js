@@ -28,12 +28,16 @@ const food = new Food.createFood(startX, startY);
 
 //Draw grid.
 function drawGame () {
+
+    gameCanvas.fillStyle = 'black';
+    gameCanvas.fillRect(0, 0, canvas.width, canvas.height);
     
     gameCanvas.fillStyle = "red";
     gameCanvas.fillRect(player.posX, player.posY, gridBlockSize, gridBlockSize);
 
     gameCanvas.fillStyle = "yellow";
     gameCanvas.fillRect(food.posX, food.posY, gridBlockSize, gridBlockSize);
+
 
 }
 
@@ -44,19 +48,17 @@ function movePlayer() {
 
     var interval = window.setInterval(function() {
 
-        
-
         if (player.velocityX != 0) {
             player.posX = player.posX + (player.velocityX * speed); 
+            
         }   
         
         if (player.velocityY != 0) {
             player.posY = player.posY + (player.velocityY * speed); 
         } 
 
-        gameCanvas.fillStyle = "red";
-        gameCanvas.fillRect(player.posX, player.posY, gridBlockSize, gridBlockSize);
-        
+        drawGame();
+        Player.foodCollision();
 
     }, 100);
 }
@@ -113,13 +115,11 @@ document.getElementById("btnDown").addEventListener("click", () => {
 
 function run() {
 
-
-    movePlayer();
-    drawGame();
-    Player.foodCollision();
     
+    movePlayer();    
 
 }
 
 run();
+
 
