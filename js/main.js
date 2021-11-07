@@ -3,14 +3,14 @@ import * as Food from "./food.js";
 
 
 //Get the game canvas.
-let canvas = document.getElementById("gameView");
+export let canvas = document.getElementById("gameView");
 let gameCanvas = canvas.getContext("2d");
 
 //How many grid blocks per row and column.
 const gridSize = 15;
 
 //Size of each grid block.
-const gridBlockSize = canvas.scrollWidth / gridSize;
+export const gridBlockSize = canvas.scrollWidth / gridSize;
 
 let startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 1);
 let startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 1);
@@ -21,14 +21,20 @@ const player = new Player.createPlayer(startX, startY, tailLength);
 let playerPositions = [];
 
 
-startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 1);
-startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 1);
+startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 3);
+startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 3);
 const food = new Food.createFood(startX, startY);
 
 //Save old player positions.
 function recordPosition() {
     const tmpPos = new Player.savePlayerPosition(player.posX, player.posY);
     playerPositions.push(tmpPos);
+    
+}
+
+//Respawn food
+function respawnFood() {
+    Food.respawnFood(food);
     
 }
 
@@ -49,6 +55,18 @@ function drawGame () {
     //Draw player head.
     gameCanvas.fillStyle = "red";
     gameCanvas.fillRect(player.posX, player.posY, gridBlockSize, gridBlockSize);
+
+
+    //Player ate food.
+    if (
+        player.posX < food.posX + gridBlockSize &&
+        player.posX + gridBlockSize > food.posX &&
+        player.posY < food.posY + gridBlockSize &&
+        player.posY + gridBlockSize > food.posY      
+        ) {
+        console.log("ate food");
+        respawnFood();
+    }
 
     //Draw the tail.
     for (let index = 0; index < tailLength; index++) {
@@ -85,10 +103,13 @@ function movePlayer() {
         } 
 
         drawGame();
-        Player.foodCollision();
+        
 
     }, 100);
 }
+
+
+
 
 
 //Detect key press.

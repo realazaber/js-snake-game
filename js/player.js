@@ -13,11 +13,6 @@ export function savePlayerPosition(posX, posY) {
     this.posY = posY;
 }
 
-//Check for collision with food.
-export function foodCollision() {
-    console.log("Check for food");
-}
-
 export function moveLeft(player) {
     console.log("Move left.");
 
