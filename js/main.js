@@ -65,6 +65,7 @@ function drawGame () {
         player.posY + gridBlockSize > food.posY      
         ) {
         console.log("ate food");
+        tailLength++;
         respawnFood();
     }
 
