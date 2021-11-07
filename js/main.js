@@ -36,6 +36,12 @@ function recordPosition() {
 //Draw grid.
 function drawGame () {
 
+
+    if (player.posX <= 0 || player.posX > canvas.width - gridBlockSize || player.posY <= 0 || player.posY > canvas.height - gridBlockSize) {
+        alert("Dead");
+        location.reload();
+    }
+
     //Clear the screen.
     gameCanvas.fillStyle = 'black';
     gameCanvas.fillRect(0, 0, canvas.width, canvas.height);
@@ -50,7 +56,6 @@ function drawGame () {
         let tmpPos = playerPositions.at(-index);
         console.log(tmpPos);
         console.log("============");
-       // gameCanvas.fillRect(tmpPos.posX, tmpPos.posY, gridBlockSize, gridBlockSize);
         
         
     }
