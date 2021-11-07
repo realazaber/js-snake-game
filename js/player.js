@@ -2,15 +2,27 @@ export function createPlayer(posX, posY, tailLength) {
     this.posX = posX;
     this.posY = posY;
     this.tailLength = tailLength;
+    this.playerPositions = [posX, posY];
 
     this.velocityX = 0;
     this.velocityY = 0;
     this.isAlive = true;   
 }
 
+export class snakeBlock {
+
+    constructor(posX, posY) {
+        this.posX = posX;
+        this.posY = posY;
+    }
+}
+
+
 export function savePlayerPosition(posX, posY) {
     this.posX = posX;
     this.posY = posY;
+
+
 }
 
 export function moveLeft(player) {
@@ -33,8 +45,6 @@ export function moveRight(player) {
         player.velocityX = 1;
         player.velocityY = 0;
     }
-
-
 }
 
 export function moveUp(player) {

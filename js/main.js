@@ -16,20 +16,27 @@ document.getElementById("score").innerHTML = score;
 
 let startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 3);
 let startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 3);
-let tailLength = 3;
+let tailLength = 0;
 
 let speed = 15;
 const player = new Player.createPlayer(startX, startY, tailLength);
-let playerPositions = [];
+
 
 startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 3);
 startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 3);
 const food = new Food.createFood(startX, startY);
 
+
+
+
 //Save old player positions.
 function recordPosition() {
-    const tmpPos = new Player.savePlayerPosition(player.posX, player.posY);
-    playerPositions.push(tmpPos.posX, tmpPos.posY);
+    
+
+    let tmpPos = player.playerPositions.at(-1);
+
+    player.playerPositions.push(new Player.snakeBlock(player.posX, player.posY));    
+    
     
 }
 
@@ -50,6 +57,7 @@ function resetGame() {
         player.posY = startY;
         player.velocityX = 0;
         player.velocityY = 0;
+
         score = 0;
         document.getElementById("score").innerHTML = 0;
         document.getElementById("scoreMsg").innerHTML = "";
@@ -65,10 +73,22 @@ function resetGame() {
 //Draw grid.
 function drawGame () {
 
-
+    //Hit the wall
     if (player.posX <= 0 || player.posX > canvas.width - gridBlockSize || player.posY <= 0 || player.posY > canvas.height - gridBlockSize) {
         alert("Dead");
         resetGame();
+    }
+
+    for (let i = 0; i < player.playerPositions.length; i++) {
+        let snakePart = player.playerPositions[i];
+
+        if (player.velocityX != 0 || player.velocityY != 0) {
+            if (snakePart.posX == player.posX && snakePart.posY == player.posY) {
+                alert("Hit your own tail.");
+                resetGame();
+            }
+        }
+        
     }
 
     //Clear the screen.
@@ -107,14 +127,18 @@ function drawGame () {
         }
 
     //Draw the tail.
-    for (let index = 0; index < tailLength; index++) {
-        gameCanvas.fillStyle = "green";
-        let tmpPos = playerPositions.at(-index);
-        console.log("pos " + tmpPos);
-        console.log("============");
-        
-        
-    }
+    
+        for (let index = 0; index < tailLength; index++) {
+            gameCanvas.fillStyle = "green";
+            let tmpPos = player.playerPositions.at(-index);
+            
+            gameCanvas.fillRect(tmpPos.posX, tmpPos.posY, gridBlockSize, gridBlockSize);
+            console.log("draw tail at X: " + tmpPos.posX + " Y: " + tmpPos.posY);
+
+
+            
+        }
+
 
 
     //Draw food.
