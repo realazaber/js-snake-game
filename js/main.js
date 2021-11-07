@@ -5,18 +5,20 @@ import * as Food from "./food.js";
 //Get the game canvas.
 export let canvas = document.getElementById("gameView");
 let gameCanvas = canvas.getContext("2d");
-
 //How many grid blocks per row and column.
 const gridSize = 15;
-
 //Size of each grid block.
 export const gridBlockSize = canvas.scrollWidth / gridSize;
+
+//Player score.
+let score = 0;
+document.getElementById("score").innerHTML = score;
 
 let startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 3);
 let startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 3);
 let tailLength = 3;
 
-const speed = 15;
+let speed = 15;
 const player = new Player.createPlayer(startX, startY, tailLength);
 let playerPositions = [];
 
@@ -48,6 +50,9 @@ function resetGame() {
         player.posY = startY;
         player.velocityX = 0;
         player.velocityY = 0;
+        score = 0;
+        document.getElementById("score").innerHTML = 0;
+        document.getElementById("scoreMsg").innerHTML = "";
         gameCanvas.fillStyle = "red";
         gameCanvas.fillRect(player.posX, player.posY, gridBlockSize, gridBlockSize);
 
@@ -86,6 +91,19 @@ function drawGame () {
         console.log("ate food");
         tailLength++;
         Food.respawnFood(food);
+        score++;
+        document.getElementById("score").innerHTML = score;
+
+
+
+        }
+
+
+        if (score >= 5) {
+            
+        let speedIncrease = score / 100;
+        speed = speed + speedIncrease;
+        scoreMsg();
         }
 
     //Draw the tail.
@@ -105,11 +123,48 @@ function drawGame () {
 
 }
 
+//Show score message 
+function scoreMsg() {
+
+    let msg = "";
+
+
+    switch (true) {
+        case (score >= 30):
+            msg = "Hacker";
+            break;
+        case (score >= 25):
+            msg = "MLG";
+            break;
+        case (score >= 20):
+            msg = "Cracked";
+            break;
+        case (score >= 15):
+            msg = "Now we talking";
+            break;
+        case (score >= 10):
+            msg = "Not bad";
+            break;
+        case (score >= 5):
+            msg = "You can do better than that!";
+            break;
+        default:
+            msg = "";
+            break;
+    }
+
+
+
+
+    document.getElementById("scoreMsg").innerHTML = msg;
+}
+
 
 //Move player.
 function movePlayer() {
+   
 
-
+    //Save position.
     var interval = window.setInterval(function() {
 
         if (player.velocityX != 0) {
