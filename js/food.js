@@ -11,6 +11,9 @@ export function createFood(posX, posY) {
 
 //Respawn food
 export function respawnFood(food) {
-    food.posX = Math.floor((Math.random() * (Main.canvas.scrollWidth - Main.gridBlockSize)) + 1);
-    food.posY = Math.floor((Math.random() * (Main.canvas.scrollWidth - Main.gridBlockSize)) + 1);
+
+    
+
+    food.posX = Math.floor((Math.random() * (Main.canvas.scrollWidth - Main.gridBlockSize)) + 3);
+    food.posY = Math.floor((Math.random() * (Main.canvas.scrollWidth - Main.gridBlockSize)) + 3);
 }

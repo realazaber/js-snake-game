@@ -12,9 +12,9 @@ const gridSize = 15;
 //Size of each grid block.
 export const gridBlockSize = canvas.scrollWidth / gridSize;
 
-let startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 1);
-let startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 1);
-const tailLength = 3;
+let startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 3);
+let startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 3);
+let tailLength = 3;
 
 const speed = 15;
 const player = new Player.createPlayer(startX, startY, tailLength);
@@ -33,9 +33,8 @@ function recordPosition() {
 }
 
 //Respawn food
-function respawnFood() {
+function respawnFood(food) {
     Food.respawnFood(food);
-    
 }
 
 
@@ -63,11 +62,12 @@ function drawGame () {
         player.posX + gridBlockSize > food.posX &&
         player.posY < food.posY + gridBlockSize &&
         player.posY + gridBlockSize > food.posY      
-        ) {
+        ) 
+        {
         console.log("ate food");
         tailLength++;
-        respawnFood();
-    }
+        Food.respawnFood(food);
+        }
 
     //Draw the tail.
     for (let index = 0; index < tailLength; index++) {
