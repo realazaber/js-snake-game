@@ -53,9 +53,13 @@ function resetGame() {
     //Draw player head.
     player.posX = startX;
     player.posY = startY;
+    
+    speed = 15;
+    
     player.velocityX = 0;
     player.velocityY = 0;
 
+    
     score = 0;
     tailLength = 0;
     document.getElementById("score").innerHTML = 0;
