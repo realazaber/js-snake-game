@@ -32,12 +32,10 @@ const food = new Food.createFood(startX, startY);
 //Save old player positions.
 function recordPosition() {
     
-
     let tmpPos = player.playerPositions.at(-1);
 
     player.playerPositions.push(new Player.snakeBlock(player.posX, player.posY));    
-    
-    
+
 }
 
 //Respawn food
@@ -48,26 +46,27 @@ function respawnFood(food) {
 
 //Reset the game
 function resetGame() {
-        //Clear the screen.
-        gameCanvas.fillStyle = 'black';
-        gameCanvas.fillRect(0, 0, canvas.width, canvas.height);
-        
-        //Draw player head.
-        player.posX = startX;
-        player.posY = startY;
-        player.velocityX = 0;
-        player.velocityY = 0;
+    //Clear the screen.
+    gameCanvas.fillStyle = 'black';
+    gameCanvas.fillRect(0, 0, canvas.width, canvas.height);
+    
+    //Draw player head.
+    player.posX = startX;
+    player.posY = startY;
+    player.velocityX = 0;
+    player.velocityY = 0;
 
-        score = 0;
-        document.getElementById("score").innerHTML = 0;
-        document.getElementById("scoreMsg").innerHTML = "";
-        gameCanvas.fillStyle = "red";
-        gameCanvas.fillRect(player.posX, player.posY, gridBlockSize, gridBlockSize);
+    score = 0;
+    tailLength = 0;
+    document.getElementById("score").innerHTML = 0;
+    document.getElementById("scoreMsg").innerHTML = "";
+    gameCanvas.fillStyle = "red";
+    gameCanvas.fillRect(player.posX, player.posY, gridBlockSize, gridBlockSize);
 
-        //Draw food.
-        Food.respawnFood(food);
-        gameCanvas.fillStyle = "yellow";
-        gameCanvas.fillRect(food.posX, food.posY, gridBlockSize, gridBlockSize);
+    //Draw food.
+    Food.respawnFood(food);
+    gameCanvas.fillStyle = "yellow";
+    gameCanvas.fillRect(food.posX, food.posY, gridBlockSize, gridBlockSize);
 }
 
 //Draw grid.
@@ -84,8 +83,8 @@ function drawGame () {
 
         if (player.velocityX != 0 || player.velocityY != 0) {
             if (snakePart.posX == player.posX && snakePart.posY == player.posY) {
-                alert("Hit your own tail.");
-                resetGame();
+                //alert("Hit your own tail.");
+                //resetGame();
             }
         }
         
@@ -114,8 +113,6 @@ function drawGame () {
         score++;
         document.getElementById("score").innerHTML = score;
 
-
-
         }
 
 
@@ -128,18 +125,14 @@ function drawGame () {
 
     //Draw the tail.
     
-        for (let index = 0; index < tailLength; index++) {
-            gameCanvas.fillStyle = "green";
-            let tmpPos = player.playerPositions.at(-index);
-            
-            gameCanvas.fillRect(tmpPos.posX, tmpPos.posY, gridBlockSize, gridBlockSize);
-            console.log("draw tail at X: " + tmpPos.posX + " Y: " + tmpPos.posY);
+    for (let index = 0; index < tailLength; index++) {
+        gameCanvas.fillStyle = "green";
+        let tmpPos = player.playerPositions.at(-index);
+        
+        gameCanvas.fillRect(tmpPos.posX, tmpPos.posY, gridBlockSize, gridBlockSize);
+        console.log("draw tail at X: " + tmpPos.posX + " Y: " + tmpPos.posY);
 
-
-            
-        }
-
-
+    }
 
     //Draw food.
     gameCanvas.fillStyle = "yellow";
@@ -151,7 +144,6 @@ function drawGame () {
 function scoreMsg() {
 
     let msg = "";
-
 
     switch (true) {
         case (score >= 30):
@@ -176,9 +168,6 @@ function scoreMsg() {
             msg = "";
             break;
     }
-
-
-
 
     document.getElementById("scoreMsg").innerHTML = msg;
 }
@@ -206,10 +195,6 @@ function movePlayer() {
 
     }, 100);
 }
-
-
-
-
 
 //Detect key press.
 
