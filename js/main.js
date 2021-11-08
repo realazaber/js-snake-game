@@ -16,7 +16,9 @@ document.getElementById("score").innerHTML = score;
 
 let startX = Math.floor((Math.random() * (canvas.scrollWidth - gridBlockSize)) + 3);
 let startY = Math.floor((Math.random() * (canvas.scrollHeight - gridBlockSize)) + 3);
+
 let tailLength = 0;
+let activeTails = [];
 
 let speed = 15;
 const player = new Player.createPlayer(startX, startY, tailLength);
@@ -60,6 +62,10 @@ function resetGame() {
     player.velocityY = 0;
 
     
+    while (activeTails.length > 0) {
+        activeTails.pop();
+    }
+
     score = 0;
     tailLength = 0;
     document.getElementById("score").innerHTML = 0;
@@ -77,21 +83,35 @@ function resetGame() {
 function drawGame () {
 
     //Hit the wall
-    if (player.posX <= 0 || player.posX > canvas.width - gridBlockSize || player.posY <= 0 || player.posY > canvas.height - gridBlockSize) {
+    if (
+        player.posX <= 0 || 
+        player.posX > canvas.width - gridBlockSize || 
+        player.posY <= 0 || 
+        player.posY > canvas.height - gridBlockSize
+        ) {
         alert("Dead");
         resetGame();
     }
 
-    for (let i = 0; i < player.playerPositions.length; i++) {
-        let snakePart = player.playerPositions[i];
+    //Hit your own tail
+    for (let i = 0; i < activeTails.length; i++) {
+        let tail = activeTails[i];
+        if (
+            tail.posX == player.posX &&
+            tail.posY == player.posY
+            ) {
+            alert(
+                "Hit ye own tail\n" + 
+                "\nPlayer velX: " + player.velocityX +
+                "\nPlayer velY: " + player.velocityY +
+                "\nPlayer x:" + player.posX +
+                "\nPlayer y:" + player.posY +
+                "\nTail x: " + tail.posX +
+                "\nTail y: " + tail.posY
 
-        if (player.velocityX != 0 || player.velocityY != 0) {
-            if (snakePart.posX == player.posX && snakePart.posY == player.posY) {
-                //alert("Hit your own tail.");
-                //resetGame();
-            }
+                );
+            resetGame();
         }
-        
     }
 
     //Clear the screen.
@@ -127,12 +147,15 @@ function drawGame () {
         scoreMsg();
         }
 
-    //Draw the tail.
-    
+    //Draw the tail. 
     for (let index = 0; index < tailLength; index++) {
         gameCanvas.fillStyle = "green";
-        let tmpPos = player.playerPositions.at(-index);
+        let tmpPos = player.playerPositions.at(-index-5);
         
+
+
+        activeTails.push(new Player.snakeBlock(tmpPos.posX, tmpPos.posY));
+
         gameCanvas.fillRect(tmpPos.posX, tmpPos.posY, gridBlockSize, gridBlockSize);
         console.log("draw tail at X: " + tmpPos.posX + " Y: " + tmpPos.posY);
 
